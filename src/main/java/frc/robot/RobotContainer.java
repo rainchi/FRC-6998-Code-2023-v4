@@ -12,6 +12,8 @@ import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -58,7 +60,12 @@ public class RobotContainer
     /** Use this method to define your trigger->command mappings. */
     private void configureBindings()
     {
-
+        new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new InstantCommand(armSubsystem::raiseArm));
+        new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new InstantCommand(armSubsystem::lowerArm));
+        new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new InstantCommand(armSubsystem::closeClaw));
+        new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new InstantCommand(armSubsystem::openClaw));
+        new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new InstantCommand(armSubsystem::testLower));
+        new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new InstantCommand(armSubsystem::testRaise));
     }
     
     
@@ -69,6 +76,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return new AutoBalanceCommand(true);
+        return new AutoBalanceCommand(false);
     }
 }

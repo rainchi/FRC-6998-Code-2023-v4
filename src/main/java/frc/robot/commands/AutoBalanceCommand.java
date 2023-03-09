@@ -33,24 +33,25 @@ public class AutoBalanceCommand extends CommandBase {
         double error = driveSubsystem.navX.getPitch();
         switch (currentStage) {
             case Preparing -> {
-                driveSubsystem.drive(Constants.AUTO_BALANCE_START_SPEED_METERS_PER_SECOND, 0, 0, false);
+                driveSubsystem.drive(0, Constants.AUTO_BALANCE_START_SPEED_METERS_PER_SECOND, 0, false);
                 if (Math.abs(error) > Constants.AUTO_BALANCE_TOLERANCE) {
                     currentStage = Stage.Climb;
                     timer.reset();
                 }
             }
             case Climb -> {
-                driveSubsystem.drive(pidController.calculate(error), 0, 0, false);
+                driveSubsystem.drive(0, pidController.calculate(error), 0, false);
                 if (Math.abs(error) <= Constants.AUTO_BALANCE_TOLERANCE) {
                     currentStage = Stage.Wait;
                     timer.reset();
                 }
             }
             case Wait -> {
+                driveSubsystem.drive(0,0,0,false);
                 if (Math.abs(error) > Constants.AUTO_BALANCE_TOLERANCE) {
                     currentStage = Stage.Climb;
                 } else {
-                    if (timer.get() > Constants.AUTO_BALANCE_WAIT_TIME) {
+                    if (shouldExitWhenFinished && timer.get() > Constants.AUTO_BALANCE_WAIT_TIME) {
                         currentStage = Stage.Finish;
                     }
                 }

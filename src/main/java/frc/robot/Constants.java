@@ -11,9 +11,9 @@ public class Constants {
     public static final double CHASSIS_WHEEL_DIAMETER_METERS = Units.inchesToMeters(4.0);
     public static final DriveSubsystem.GearRatio CHASSIS_DRIVE_GEAR_RATIO = DriveSubsystem.GearRatio.L1;
     public static final double CHASSIS_ANGLE_GEAR_RATIO = 21.42;
-    public static final double CHASSIS_MAX_SPEED_METERS_PER_SECOND = 4.0;
-    public static final double CHASSIS_MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 4.0;
-    public static final double CHASSIS_MAX_ACCELERATION_METERS_PER_SECOND = 3.0;
+    public static final double CHASSIS_MAX_SPEED_METERS_PER_SECOND = 8.0;
+    public static final double CHASSIS_MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 6.0;
+    public static final double CHASSIS_MAX_ACCELERATION_METERS_PER_SECOND = 5.0;
     public static final boolean CHASSIS_ENABLE_FIELD_ORIENTED_CONTROL = true;
     public static final double CHASSIS_DEAD_ZONE = 0.1;
     public static final Pose2d CHASSIS_INITIAL_POSITION = new Pose2d(0, 0, new Rotation2d(0));
@@ -45,14 +45,28 @@ public class Constants {
     public static final double CHASSIS_ANGLE_MOTOR_SMART_MOTION_MAX_ACCELERATION = 10000;
     public static final double CHASSIS_ANGLE_MOTOR_SMART_MOTION_ALLOWABLE_ERROR = 0.01;
 
-    public static final double AUTO_BALANCE_KP = 0.2;
+    public static final double AUTO_BALANCE_KP = 0.08;
     public static final double AUTO_BALANCE_KI = 0;
     public static final double AUTO_BALANCE_KD = 0;
-    public static final double AUTO_BALANCE_START_SPEED_METERS_PER_SECOND = 0.9;
-    public static final double AUTO_BALANCE_TOLERANCE = 3;
+    public static final double AUTO_BALANCE_START_SPEED_METERS_PER_SECOND = 2;
+    public static final double AUTO_BALANCE_TOLERANCE = 2;
     public static final double AUTO_BALANCE_WAIT_TIME = 2;
 
-    public static final int ARM_TOP_MOTOR_ID = 5;
-    public static final int ARM_BOTTOM_MOTOR_ID = 6;
-    public static final double ARM_GEARING = 100;
+    public static final int ARM_TOP_MOTOR_ID = 6;
+    public static final double ARM_TOP_ENCODER_OFFSET = 105;
+    public static final double ARM_TOP_KF = 0.0028;
+    public static final double ARM_TOP_KP = 0.007;
+    public static final double ARM_TOP_MAX_ALLOWABLE_ERROR_DEG = 2;
+    public static final double ARM_TOP_MAX_VELOCITY_DEG_PER_SEC = 90;
+    public static final double ARM_TOP_MAX_ACCELERATION_DEG_PER_SQ = 90;
+    public static final int ARM_BOTTOM_MOTOR_ID = 5;
+    public static final double ARM_BOTTOM_ENCODER_OFFSET = 319.3+27;
+    public static final double ARM_BOTTOM_KF = 0.0029077;
+    public static final double ARM_BOTTOM_KP = 0.0034906;
+    public static final double ARM_BOTTOM_MAX_ALLOWABLE_ERROR_DEG = 2;
+    public static final double ARM_BOTTOM_MAX_VELOCITY_DEG_PER_SEC = 90;
+    public static final double ARM_BOTTOM_MAX_ACCELERATION_DEG_PER_SQ = 90;
+    public static final int ARM_SOLENOID_ID = 0;
+    public static final double ARM_TOP_GEARING = 80;
+    public static final double ARM_BOTTOM_GEARING = 100 * 2;
 }
