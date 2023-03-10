@@ -41,6 +41,6 @@ public class SwerveDriveCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0, 0, false);
+        drive.stopAll();
     }
 }
