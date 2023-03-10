@@ -32,7 +32,7 @@ public class RobotContainer
     private final XboxController operatorController = new XboxController(1);
 
     private final DriveSubsystem driveSubsystem = DriveSubsystem.getInstance();
-    private final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
+//    private final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
 
     private final SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
             driveSubsystem::getPose, // Pose2d supplier
@@ -60,12 +60,12 @@ public class RobotContainer
     /** Use this method to define your trigger->command mappings. */
     private void configureBindings()
     {
-        new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new InstantCommand(armSubsystem::raiseArm));
-        new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new InstantCommand(armSubsystem::lowerArm));
-        new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new InstantCommand(armSubsystem::closeClaw));
-        new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new InstantCommand(armSubsystem::openClaw));
-        new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new InstantCommand(armSubsystem::testLower));
-        new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new InstantCommand(armSubsystem::testRaise));
+//        new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new InstantCommand(armSubsystem::raiseArm));
+//        new JoystickButton(driverController, XboxController.Button.kLeftBumper.value).onTrue(new InstantCommand(armSubsystem::lowerArm));
+//        new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new InstantCommand(armSubsystem::closeClaw));
+//        new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new InstantCommand(armSubsystem::openClaw));
+//        new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new InstantCommand(armSubsystem::testLower));
+//        new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new InstantCommand(armSubsystem::testRaise));
     }
     
     
