@@ -1,17 +1,15 @@
 package frc.robot.subsystems;
 
 
-import com.revrobotics.*;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.PubSubOption;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import java.awt.*;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -72,11 +70,11 @@ public class ArmSubsystem extends SubsystemBase {
         bottomArmMotor.getPIDController().setSmartMotionMaxAccel(Constants.ARM_BOTTOM_MAX_ACCELERATION_DEG_PER_SQ, 0);
         bottomArmMotor.getPIDController().setSmartMotionAllowedClosedLoopError(Constants.ARM_BOTTOM_MAX_ALLOWABLE_ERROR_DEG, 0);
 
-        // convert encoder position to radians
-        topArmMotor.getEncoder().setPositionConversionFactor(1/Constants.ARM_TOP_GEARING*360); // round to radian
-        topArmMotor.getEncoder().setVelocityConversionFactor(1/Constants.ARM_TOP_GEARING*360/60); // rpm to degree per second
-        bottomArmMotor.getEncoder().setPositionConversionFactor(1/ Constants.ARM_BOTTOM_GEARING*360); // round to radian
-        bottomArmMotor.getEncoder().setVelocityConversionFactor(1/ Constants.ARM_BOTTOM_GEARING*360/60); // rpm to degree per second
+        // convert encoder position to degrees
+        topArmMotor.getEncoder().setPositionConversionFactor(1/Constants.ARM_TOP_GEARING*360); // round to degrees
+        topArmMotor.getEncoder().setVelocityConversionFactor(1/Constants.ARM_TOP_GEARING*360/60); // rpm to degrees per second
+        bottomArmMotor.getEncoder().setPositionConversionFactor(1/ Constants.ARM_BOTTOM_GEARING*360); // round to degrees
+        bottomArmMotor.getEncoder().setVelocityConversionFactor(1/ Constants.ARM_BOTTOM_GEARING*360/60); // rpm to degrees per second
 
 
         topDutyCycleEncoder.setPositionConversionFactor(360);
