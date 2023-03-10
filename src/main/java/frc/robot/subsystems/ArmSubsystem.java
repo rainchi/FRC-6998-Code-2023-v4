@@ -79,11 +79,11 @@ public class ArmSubsystem extends SubsystemBase {
 
         topDutyCycleEncoder.setPositionConversionFactor(360);
         topDutyCycleEncoder.setVelocityConversionFactor(360/60.0);
-        topDutyCycleEncoder.setZeroOffset(Constants.ARM_TOP_ENCODER_OFFSET);
+        topDutyCycleEncoder.setZeroOffset(Constants.ARM_TOP_ENCODER_OFFSET%360);
 
         bottomDutyCycleEncoder.setPositionConversionFactor(360);
         bottomDutyCycleEncoder.setVelocityConversionFactor(360/60.0);
-        bottomDutyCycleEncoder.setZeroOffset(Constants.ARM_BOTTOM_ENCODER_OFFSET);
+        bottomDutyCycleEncoder.setZeroOffset(Constants.ARM_BOTTOM_ENCODER_OFFSET%360);
 
         syncPosition();
     }
