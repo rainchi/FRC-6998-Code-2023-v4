@@ -71,6 +71,7 @@ public class Robot extends TimedRobot
         }
         DriveSubsystem.getInstance().syncPositions();
         ArmSubsystem.getInstance().syncPosition();
+        DriveSubsystem.getInstance().navX.zeroYaw();
     }
     
     @Override

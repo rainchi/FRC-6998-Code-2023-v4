@@ -25,7 +25,7 @@ public class RunTrajectoryCommand extends CommandBase {
     private final Rotation2d targetRot;
 
     public RunTrajectoryCommand(DriveSubsystem driveTrainSubsystem, Trajectory trajectory) {
-        this.trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
+        this.trajectory = requireNonNullParam(trajectory, "trajectory", "RunTrajectoryCommand");
         List<Trajectory.State> states = trajectory.getStates();
         this.targetRot = states.get(states.size()-1).poseMeters.getRotation();
         follower = new HolonomicDriveController(

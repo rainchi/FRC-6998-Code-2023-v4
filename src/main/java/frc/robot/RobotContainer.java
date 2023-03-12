@@ -38,8 +38,8 @@ public class RobotContainer
             driveSubsystem::getPose, // Pose2d supplier
             driveSubsystem::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
             driveSubsystem.getKinematics(), // SwerveDriveKinematics
-            new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
-            new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+            new PIDConstants(1, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+            new PIDConstants(0.1, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
             driveSubsystem::setModuleStates, // Module states consumer used to output to the drive subsystem
             null, // The path constraints. Optional, defaults to null
             true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
@@ -76,6 +76,7 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
+        //return autoBuilder.fullAuto(trajectory);
         return new AutoBalanceCommand(false);
     }
 }

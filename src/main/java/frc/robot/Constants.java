@@ -16,23 +16,23 @@ public class Constants {
     public static final double CHASSIS_MAX_ACCELERATION_METERS_PER_SECOND = 5.0;
     public static final boolean CHASSIS_ENABLE_FIELD_ORIENTED_CONTROL = true;
     public static final double CHASSIS_DEAD_ZONE = 0.1;
-    public static final Pose2d CHASSIS_INITIAL_POSITION = new Pose2d(0, 0, new Rotation2d(0));
+    public static final Pose2d CHASSIS_INITIAL_POSITION = new Pose2d(0, 0, Rotation2d.fromDegrees(0)); // TODO: use real start position
     public static final int CHASSIS_FRONT_LEFT_DRIVE_MOTOR_ID = 1;
     public static final int CHASSIS_FRONT_LEFT_ANGLE_MOTOR_ID = 1;
     public static final int CHASSIS_FRONT_LEFT_CANCODER_ID = 1;
-    public static final double CHASSIS_FRONT_LEFT_ANGLE_OFFSET_DEGREES = -17.051 + 180;
+    public static final double CHASSIS_FRONT_LEFT_ANGLE_OFFSET_DEGREES = -17.051;
     public static final int CHASSIS_FRONT_RIGHT_DRIVE_MOTOR_ID = 4;
     public static final int CHASSIS_FRONT_RIGHT_ANGLE_MOTOR_ID = 4;
     public static final int CHASSIS_FRONT_RIGHT_CANCODER_ID = 4;
-    public static final double CHASSIS_FRONT_RIGHT_ANGLE_OFFSET_DEGREES = -105.381;
+    public static final double CHASSIS_FRONT_RIGHT_ANGLE_OFFSET_DEGREES = -105.381+180;
     public static final int CHASSIS_BACK_LEFT_DRIVE_MOTOR_ID = 2;
     public static final int CHASSIS_BACK_LEFT_ANGLE_MOTOR_ID = 2;
     public static final int CHASSIS_BACK_LEFT_CANCODER_ID = 2;
-    public static final double CHASSIS_BACK_LEFT_ANGLE_OFFSET_DEGREES = 62.578 + 180;
+    public static final double CHASSIS_BACK_LEFT_ANGLE_OFFSET_DEGREES = 62.578;
     public static final int CHASSIS_BACK_RIGHT_DRIVE_MOTOR_ID = 3;
     public static final int CHASSIS_BACK_RIGHT_ANGLE_MOTOR_ID = 3;
     public static final int CHASSIS_BACK_RIGHT_CANCODER_ID = 3;
-    public static final double CHASSIS_BACK_RIGHT_ANGLE_OFFSET_DEGREES = -139.395;
+    public static final double CHASSIS_BACK_RIGHT_ANGLE_OFFSET_DEGREES = -139.395+180;
     public static final double CHASSIS_DRIVE_MOTOR_KP = 0.05;
     public static final double CHASSIS_DRIVE_MOTOR_KD = 0.0;
     public static final double CHASSIS_DRIVE_MOTOR_KS = 0.077618 / 12;
@@ -48,7 +48,7 @@ public class Constants {
     public static final double AUTO_BALANCE_KP = 0.08;
     public static final double AUTO_BALANCE_KI = 0;
     public static final double AUTO_BALANCE_KD = 0;
-    public static final double AUTO_BALANCE_START_SPEED_METERS_PER_SECOND = 2;
+    public static final double AUTO_BALANCE_START_SPEED_METERS_PER_SECOND = -2;
     public static final double AUTO_BALANCE_TOLERANCE = 2;
     public static final double AUTO_BALANCE_WAIT_TIME = 2;
 

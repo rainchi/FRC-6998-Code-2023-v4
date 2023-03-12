@@ -26,8 +26,8 @@ public class SwerveDriveCommand extends CommandBase {
     @Override
     public void execute() {
         double xSpeed = MathUtil.applyDeadband(-driveController.getLeftY(), Constants.CHASSIS_DEAD_ZONE);
-        double ySpeed = MathUtil.applyDeadband(driveController.getLeftX(), Constants.CHASSIS_DEAD_ZONE);
-        double zRot = MathUtil.applyDeadband(driveController.getRightX(), Constants.CHASSIS_DEAD_ZONE);
+        double ySpeed = MathUtil.applyDeadband(-driveController.getLeftX(), Constants.CHASSIS_DEAD_ZONE);
+        double zRot = MathUtil.applyDeadband(-driveController.getRightX(), Constants.CHASSIS_DEAD_ZONE);
         xSpeed *= Constants.CHASSIS_MAX_SPEED_METERS_PER_SECOND;
         ySpeed *= Constants.CHASSIS_MAX_SPEED_METERS_PER_SECOND;
         zRot *= Constants.CHASSIS_MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;

@@ -30,7 +30,7 @@ public class AutoBalanceCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double error = driveSubsystem.navX.getPitch();
+        double error = -driveSubsystem.navX.getPitch();
         switch (currentStage) {
             case Preparing -> {
                 driveSubsystem.drive(0, Constants.AUTO_BALANCE_START_SPEED_METERS_PER_SECOND, 0, false);

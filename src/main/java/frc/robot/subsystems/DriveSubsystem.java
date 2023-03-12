@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -41,27 +42,16 @@ public class DriveSubsystem extends SubsystemBase {
         return INSTANCE;
     }
 
-    /**
-     * Creates a new instance of this DriveSubsystem. This constructor
-     * is private since this class is a Singleton. Code should use
-     * the {@link #getInstance()} method to get the singleton instance.
-     */
-    private DriveSubsystem() {
-        // TODO: Set the default command, if any, for this subsystem by calling setDefaultCommand(command)
-        //       in the constructor or in the robot coordination class, such as RobotContainer.
-        //       Also, you can call addChild(name, sendableChild) to associate sendables with the subsystem
-        //       such as SpeedControllers, Encoders, DigitalInputs, etc.
-        navX.zeroYaw();
-    }
-
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-            new Translation2d(Constants.CHASSIS_LENGTH_METERS / 2.0, Constants.CHASSIS_WIDTH_METERS / 2.0),
-            new Translation2d(Constants.CHASSIS_LENGTH_METERS / 2.0, -Constants.CHASSIS_WIDTH_METERS / 2.0),
-            new Translation2d(-Constants.CHASSIS_LENGTH_METERS / 2.0, Constants.CHASSIS_WIDTH_METERS / 2.0),
-            new Translation2d(-Constants.CHASSIS_LENGTH_METERS / 2.0, -Constants.CHASSIS_WIDTH_METERS / 2.0)
+            new Translation2d(Constants.CHASSIS_LENGTH_METERS / 2.0, Constants.CHASSIS_WIDTH_METERS / 2.0), // Front Left
+            new Translation2d(Constants.CHASSIS_LENGTH_METERS / 2.0, -Constants.CHASSIS_WIDTH_METERS / 2.0), // Front Right
+            new Translation2d(-Constants.CHASSIS_LENGTH_METERS / 2.0, Constants.CHASSIS_WIDTH_METERS / 2.0), // Rear Left
+            new Translation2d(-Constants.CHASSIS_LENGTH_METERS / 2.0, -Constants.CHASSIS_WIDTH_METERS / 2.0) // Rear Right
     );
 
-    public final AHRS navX = new AHRS(SPI.Port.kMXP);
+    private final SwerveDriveOdometry odometry;
+
+    public final AHRS navX = new AHRS(SPI.Port.kMXP); // NavX Sensor
 
     private final SwerveModule[] swerveModules = new SwerveModule[]{
             new SwerveModule(Constants.CHASSIS_FRONT_LEFT_DRIVE_MOTOR_ID, Constants.CHASSIS_FRONT_LEFT_ANGLE_MOTOR_ID, Constants.CHASSIS_FRONT_LEFT_CANCODER_ID, Constants.CHASSIS_FRONT_LEFT_ANGLE_OFFSET_DEGREES), // Front Left
@@ -70,14 +60,17 @@ public class DriveSubsystem extends SubsystemBase {
             new SwerveModule(Constants.CHASSIS_BACK_RIGHT_DRIVE_MOTOR_ID, Constants.CHASSIS_BACK_RIGHT_ANGLE_MOTOR_ID, Constants.CHASSIS_BACK_RIGHT_CANCODER_ID, Constants.CHASSIS_BACK_RIGHT_ANGLE_OFFSET_DEGREES), // Rear Right
     };
 
-    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(
-            kinematics, navX.getRotation2d(),
-            new SwerveModulePosition[]{
-                    swerveModules[0].getPosition(),
-                    swerveModules[1].getPosition(),
-                    swerveModules[2].getPosition(),
-                    swerveModules[3].getPosition()
-            }, Constants.CHASSIS_INITIAL_POSITION);
+    /**
+     * Creates a new instance of this DriveSubsystem. This constructor
+     * is private since this class is a Singleton. Code should use
+     * the {@link #getInstance()} method to get the singleton instance.
+     */
+    private DriveSubsystem() {
+        navX.zeroYaw();
+        odometry = new SwerveDriveOdometry(
+                kinematics, navX.getRotation2d(),
+                getModulePositions(), Constants.CHASSIS_INITIAL_POSITION);
+    }
 
     public void resetPose(Pose2d pose) {
         odometry.resetPosition(navX.getRotation2d(), getModulePositions(), pose);
@@ -127,6 +120,9 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(navX.getRotation2d(), getModulePositions());
+        SmartDashboard.putNumber("Odometry X", odometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("Odometry Y", odometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("Odometry Angle", odometry.getPoseMeters().getRotation().getDegrees());
     }
 
     public static class SwerveModule {
@@ -186,12 +182,12 @@ public class DriveSubsystem extends SubsystemBase {
 
         public void setDesiredState(SwerveModuleState state) {
             state = optimize(state, getRotation());
-            driveMotor.set(ControlMode.Velocity, state.speedMetersPerSecond* getDriveGearRatio()/10/Constants.CHASSIS_WHEEL_DIAMETER_METERS*2048.0/2.0/Math.PI, DemandType.ArbitraryFeedForward, feedforward.calculate(state.speedMetersPerSecond));
-            if (state.speedMetersPerSecond != 0) {
+            driveMotor.set(ControlMode.Velocity, state.speedMetersPerSecond* getDriveGearRatio()/10/Constants.CHASSIS_WHEEL_DIAMETER_METERS*2048.0/Math.PI, DemandType.ArbitraryFeedForward, feedforward.calculate(state.speedMetersPerSecond));
+//            if (state.speedMetersPerSecond != 0) {
                 angleMotor.getPIDController().setReference(-state.angle.getDegrees(), CANSparkMax.ControlType.kSmartMotion);
-            } else {
-                angleMotor.stopMotor();
-            }
+//            } else {
+//                angleMotor.stopMotor();
+//            }
         }
 
         /**
@@ -249,7 +245,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         public final SwerveModulePosition getPosition() {
             return new SwerveModulePosition(
-                    driveMotor.getSelectedSensorPosition() * 10 / getDriveGearRatio() / 2048.0 * 2 * Math.PI * Constants.CHASSIS_WHEEL_DIAMETER_METERS,
+                    driveMotor.getSelectedSensorPosition()/ getDriveGearRatio() / 2048.0 * Math.PI * Constants.CHASSIS_WHEEL_DIAMETER_METERS,
                     getRotation());
         }
 
