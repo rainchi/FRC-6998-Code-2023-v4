@@ -76,7 +76,7 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        //return autoBuilder.fullAuto(trajectory);
-        return new AutoBalanceCommand(false);
+        return autoBuilder.fullAuto(trajectory).andThen(new AutoBalanceCommand(false));
+        //return new AutoBalanceCommand(false);
     }
 }
